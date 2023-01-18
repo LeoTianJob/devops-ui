@@ -12,15 +12,17 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: checkout repo
-        uses: actions/checkout@v2.3.4
-      - name: Setup Python
-        uses: actions/setup-python@v2.3.3
-      - name: pip install
-        run: pip install -r src/requirements.txt
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: npm install
+        run: npm install
       - name: Snyk Install
         run: npm install snyk -g
-      # - name: Snyk Auth
-      #   run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Snyk SCA Monitor
         run: snyk monitor --all-projects --org=9c1712cb-4430-4d28-b501-3555ea48f091
       - name: Snyk SCA Test
